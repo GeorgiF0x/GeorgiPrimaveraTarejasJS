@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen de DWEC</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        main {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            min-height: calc(100vh - 200px); /* 200px es la altura estimada de header y footer */
+            padding: 5px;
+        }
+
+        section {
+            box-sizing: border-box;
+            width: 49%; /* Dos secciones ocupando el 48% del ancho cada una */
+            margin: 10px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+
+        .subseccion {
+            height: 49%; /* Dos subsecciones ocupando el 48% de la altura cada una */
+            margin: 5px;
+            /* padding: 10px; */
+            border: 1px solid #ddd;
+            background-color: #eaeaea;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Título del Header</h1>
+    </header>
+
+    <main>
+        <section>
+            <div class="subseccion">
+                <h2>Banca</h2>
+                <div>Contenido de la subsección 1.1</div>
+            </div>
+
+            <div class="subseccion">
+                <h2>Introduce tu nombre</h2>
+                <div>Contenido de la subsección 1.2</div>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Panel</h2>
+            <div>Contenido de la sección 2</div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Examen 22 de febrero de 2024 - © DAW2 DWEC en IES "Claudio Moyano" </p>
+    </footer>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
