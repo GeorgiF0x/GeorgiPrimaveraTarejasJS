@@ -19,6 +19,7 @@ export class Juego {
         // console.log(`se han repartido las cartas y se ha hecho la apuesta con valor ${this.apuesta}`);
         let elementoLi=document.createElement('li');
         elementoLi.innerText=`se han repartido las cartas y se ha hecho la apuesta con valor ${this.apuesta}`
+        console.log(this.apuesta);
         console.log( document.getElementById("listaPanel"));
         document.getElementById("listaPanel").appendChild(elementoLi);
         this.repartirCartas();
@@ -26,7 +27,7 @@ export class Juego {
         // console.log(this.jugador1.mano);
     }
 
-
+    //ALGO PARA CAMBIAR EL GIT
     jugador1PedirCarta() {
         console.log(this.jugador1);
         const nuevaCarta = this.baraja.sacarCarta();
