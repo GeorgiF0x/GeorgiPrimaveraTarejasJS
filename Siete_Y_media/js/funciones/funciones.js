@@ -15,7 +15,7 @@ function getRandomInt(min, max) {
     } else {
         console.error("No existe ese elemento con ese id");
     }
-}
+  }
 
   export const funcionesExportadas={
     getRandomInt,

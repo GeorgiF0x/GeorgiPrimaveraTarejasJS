@@ -62,6 +62,7 @@ function empezarJuego(){
     const jugador = new Jugador(nombreJugador);
     subseccion2.innerHTML=""; //limpio el contenido de la subseccion2
     subseccion2.innerHTML+=`<h2>${nombreJugador} puntos totales :${jugador._puntosAcumuladosJugador} </h2>`;
+    console.log(jugador);
 
 
 
@@ -87,6 +88,7 @@ function empezarJuego(){
         botonPlantarse.textContent = "Plantarse";
         botonPlantarse.addEventListener("click", () => {
             juego.jugador1Plantarse();
+            console.log(jugador);
             contenedorBotones.innerHTML="";
             const botonNuevaPartida = document.createElement("Button");
             botonNuevaPartida.innerText="Jugar De Nuevo";
@@ -139,6 +141,7 @@ function empezarJuego(){
     const banca = new Banca('Banca');
     const juego = new Juego(baraja, jugador, banca, 100); 
     juego.iniciarJuego();
+
 
     localStorage.setItem('jugador', JSON.stringify(jugador));
 }

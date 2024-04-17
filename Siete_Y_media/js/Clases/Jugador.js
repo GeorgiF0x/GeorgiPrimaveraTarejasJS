@@ -8,7 +8,11 @@ export class Jugador {
     }
 
     set puntosAcumuladosJugador(nuevosPuntos) {
-        this._puntosAcumuladosJugador = nuevosPuntos;
+        this._puntosAcumuladosJugador = parseInt(nuevosPuntos);
+    }
+
+    get getPuntosAcumuladosJugador(){
+        return this._puntosAcumuladosJugador;
     }
 
     recibirCarta(carta) {
@@ -36,7 +40,5 @@ export class Jugador {
     
 
 
-    hacerApuesta(cantidad) {
-        this.apuestaJugador = cantidad;
-    }
+
 }
