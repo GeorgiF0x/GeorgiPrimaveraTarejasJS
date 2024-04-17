@@ -4,7 +4,11 @@ export class Jugador {
     constructor(nombre) {
         this.nombre = nombre;
         this.mano = [];
-        this.apuestaJugador = 0;
+        this._puntosAcumuladosJugador = 10;
+    }
+
+    set puntosAcumuladosJugador(nuevosPuntos) {
+        this._puntosAcumuladosJugador = nuevosPuntos;
     }
 
     recibirCarta(carta) {
@@ -18,6 +22,19 @@ export class Jugador {
         });
         return puntuacion;
     }
+
+    mostrarMano(elementoLista) {
+        this.mano.forEach((carta, index) => {
+            const elementoLi = document.createElement("li");
+            elementoLi.id = "liCarta" + index;
+            const idCarta=elementoLi.id;
+            console.log(elementoLi);
+            elementoLista.appendChild(elementoLi);
+            carta.imprimirCarta(idCarta);
+        });
+    }
+    
+
 
     hacerApuesta(cantidad) {
         this.apuestaJugador = cantidad;

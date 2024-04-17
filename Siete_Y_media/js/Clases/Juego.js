@@ -7,19 +7,31 @@ export class Juego {
         this.baraja = baraja;
         this.jugador1 = jugador1;
         this.banca = banca;
-        this.apuesta = apuesta;
+        this._apuesta = apuesta;
+    }
+    set apuesta(nuevaApuesta) {
+        this._apuesta = nuevaApuesta;
     }
 
     repartirCartas() {
         this.jugador1.recibirCarta(this.baraja.sacarCarta());
         this.banca.recibirCarta(this.baraja.sacarCarta());
+    
+       const ulManoJugador = document.getElementById("manoJugador");
+        console.log(ulManoJugador);
+       this.jugador1.mostrarMano(ulManoJugador);
+
+       const ulManoBanca=document.getElementById('manoBanca');
+       console.log(ulManoBanca);
+       ulManoBanca.innerText="Carta Oculta"; 
+
     }
     
     iniciarJuego() {
         // console.log(`se han repartido las cartas y se ha hecho la apuesta con valor ${this.apuesta}`);
         let elementoLi=document.createElement('li');
-        elementoLi.innerText=`se han repartido las cartas y se ha hecho la apuesta con valor ${this.apuesta}`
-        console.log(this.apuesta);
+        elementoLi.innerText=`se han repartido las cartas`;
+
         console.log( document.getElementById("listaPanel"));
         document.getElementById("listaPanel").appendChild(elementoLi);
         this.repartirCartas();
@@ -27,7 +39,7 @@ export class Juego {
         // console.log(this.jugador1.mano);
     }
 
-    //ALGO PARA CAMBIAR EL GIT
+
     jugador1PedirCarta() {
         console.log(this.jugador1);
         const nuevaCarta = this.baraja.sacarCarta();
@@ -44,41 +56,53 @@ export class Juego {
     mostrarResultado() {
         const puntuacionJugador1 = this.jugador1.calcularPuntuacion();
         const puntuacionBanca = this.banca.calcularPuntuacion();
-
-        let mostrarResul=document.createElement('h2');
-        
+    
+        let mostrarResul = document.createElement('h2');
     
         if (puntuacionJugador1 > 7.5) {
-            console.log(`El jugador ${this.jugador1.nombre} se ha pasado de 7.5 gana La Banca `);
-            mostrarResul.innerText=`El jugador ${this.jugador1.nombre} se ha pasado de 7.5 gana La Banca`;
+            console.log(`El jugador ${this.jugador1.nombre} se ha pasado de 7.5, gana La Banca`);
+            mostrarResul.innerText = `El jugador ${this.jugador1.nombre} se ha pasado de 7.5, gana La Banca`;
         } else if (puntuacionBanca > 7.5) {
-            console.log(`La banca se ha pasado de 7.5 El jugador ${this.jugador1.nombre} gana`);
-            mostrarResul.innerText=`La banca se ha pasado de 7.5 El jugador ${this.jugador1.nombre} gana`;
+            console.log(`La banca se ha pasado de 7.5, El jugador ${this.jugador1.nombre} gana`);
+            mostrarResul.innerText = `La banca se ha pasado de 7.5, El jugador ${this.jugador1.nombre} gana`;
+            this.jugador1.puntosAcumuladosJugador += this.apuesta ;
+        } else if (puntuacionJugador1 === 7.5) {
+            console.log(`El jugador ${this.jugador1.nombre} ha obtenido 7.5 exactos, gana y duplica la apuesta`);
+            mostrarResul.innerText = `El jugador ${this.jugador1.nombre} ha obtenido 7.5 exactos, gana `;
+            this.jugador1.puntosAcumuladosJugador += this.apuesta * 2; // si gana con 7.5 exacto suma x2
         } else if (puntuacionJugador1 > puntuacionBanca) {
             console.log(`El jugador ${this.jugador1.nombre} gana`);
-            mostrarResul.innerText=`El  ${this.jugador1.nombre} tiene mas puntos que la banca,${this,jugador1.nombre} gana`;
+            mostrarResul.innerText = `El ${this.jugador1.nombre} tiene más puntos que la banca, ${this.jugador1.nombre} gana`;
+            this.jugador1.puntosAcumuladosJugador += this.apuesta;
         } else if (puntuacionJugador1 < puntuacionBanca) {
             console.log(`La banca gana`);
-            mostrarResul.innerText=`La banca gana`;
+            mostrarResul.innerText = `La banca tiene mas puntos que el jugador,la Banca gana`;
         } else {
             console.log(`Empate`);
-            mostrarResul.innerText=`Empate`;
+            mostrarResul.innerText = `Empate`;
         }
         document.getElementById('IdPanel').appendChild(mostrarResul);
     }
     
+    
+    
 
 
     juegaBanca() {
-        for (let i = 0; i < 4; i++) {  // por ahora lo que hago es repartir siempre 4 cartas a la banca 
-            const nuevaCarta = this.baraja.sacarCarta();
-            this.banca.recibirCarta(nuevaCarta);
-            console.log(`La banca ha recibido la carta: ${nuevaCarta.valor} de ${nuevaCarta.palo}`);
-            let liBancaPideCarta=document.createElement('li');
-            liBancaPideCarta.innerText=`La banca ha recibido una carta`;
-            document.getElementById('listaPanel').appendChild(liBancaPideCarta);
-        }
-        this.mostrarResultado();
+     // La banca pide solo 1 carta
+    const nuevaCarta = this.baraja.sacarCarta();
+    this.banca.recibirCarta(nuevaCarta);
+    console.log(`La banca ha recibido la carta: ${nuevaCarta.valor} de ${nuevaCarta.palo}`);
+    let liBancaPideCarta = document.createElement('li');
+    liBancaPideCarta.innerText = `La banca ha recibido una carta`;
+    document.getElementById('listaPanel').appendChild(liBancaPideCarta);
+    this.mostrarResultado();
+    //mostrar las cartas boca arriba, de la banca
+    const manoBanca = document.getElementById('manoBanca');
+    manoBanca.innerHTML="";
+    this.banca.mano.forEach(carta => {
+        carta.imprimirCarta("manoBanca");
+    });
     }
 
 }

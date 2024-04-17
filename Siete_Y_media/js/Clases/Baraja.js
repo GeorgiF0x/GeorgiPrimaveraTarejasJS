@@ -10,19 +10,19 @@ export class Baraja{
 
     construirBaraja() {
         const palos = ['Oros', 'Copas', 'Espadas', 'Bastos'];
-        const valores = ['As', '2', '3', '4', '5', '6', '7', 'Sota', 'Caballo', 'Rey'];
+        const nombres = ['As', '2', '3', '4', '5', '6', '7', 'Sota', 'Caballo', 'Rey'];
     
         for (let palo of palos) {
-            for (let valor of valores) {
+            for (let nombre of nombres) {
                 let cartaValor = 0;
-                if (valor === 'Sota' || valor === 'Caballo' || valor === 'Rey') {
+                if (nombre === 'Sota' || nombre === 'Caballo' || nombre === 'Rey') {
                     cartaValor = 0.5;
-                } else if (valor != 'As') {
-                    cartaValor = parseInt(valor);
+                } else if (nombre != 'As') {
+                    cartaValor = parseInt(nombre);
                 } else {
                     cartaValor = 1;
                 }
-                let cartaParaBaraja=new Carta(palo,cartaValor)
+                let cartaParaBaraja=new Carta(palo,cartaValor,nombre)
                 this.cartas.push(cartaParaBaraja);
             }
         }
