@@ -18,11 +18,11 @@ export class Juego {
     this.banca.recibirCarta(this.baraja.sacarCarta());
 
     const ulManoJugador = document.getElementById("manoJugador");
-    console.log(ulManoJugador);
+
     this.jugador1.mostrarMano(ulManoJugador);
 
     const ulManoBanca = document.getElementById("manoBanca");
-    console.log(ulManoBanca);
+    // console.log(ulManoBanca);
     ulManoBanca.innerText = "Carta Oculta";
   }
 
@@ -31,11 +31,10 @@ export class Juego {
     let elementoLi = document.createElement("li");
     elementoLi.innerText = `se han repartido las cartas`;
 
-    console.log(document.getElementById("listaPanel"));
+ 
     document.getElementById("listaPanel").appendChild(elementoLi);
     this.repartirCartas();
     // console.log(this.jugador1.mano);
-    console.log("PUNTOS*****" + this.jugador1.calcularPuntuacion());
   }
 
   jugador1PedirCarta() {
@@ -69,49 +68,57 @@ export class Juego {
     const puntuacionBanca = this.banca.calcularPuntuacion();
     let mostrarResul = document.createElement("h2");
     if (puntuacionJugador1 === 7.5) {
-      console.log(
-        `El jugador ${this.jugador1.nombre} ha obtenido 7.5 exactos, gana y duplica la apuesta`
-      );
-      mostrarResul.innerText = `El jugador ${this.jugador1.nombre} ha obtenido 7.5 exactos, gana `;
-      this.jugador1.puntosAcumuladosJugador(this.apuesta+this.jugador1.getPuntosAcumuladosJugador*2);
-      console.log(this.jugador1.getPuntosAcumuladosJugador());
-      
-    }else if(puntuacionBanca==7.5){
-      console.log(
-        `La banca ${this.banca.nombre} ha obtenido 7.5 exactos, gana y duplica la apuesta`
-      );
-      console.log(this.jugador1.getPuntosAcumuladosJugador());
-    }
-     else if (puntuacionJugador1 > 7.5) {
-      console.log(
-        `El jugador ${this.jugador1.nombre} se ha pasado de 7.5, gana La Banca`
-      );
-      mostrarResul.innerText = `El jugador ${this.jugador1.nombre} se ha pasado de 7.5, gana La Banca`;
-      console.log(this.jugador1.getPuntosAcumuladosJugador());
+        console.log(
+            `El jugador ${this.jugador1.nombre} ha obtenido 7.5 exactos, gana y duplica la apuesta`
+        );
+        mostrarResul.innerText = `El jugador ${this.jugador1.nombre} ha obtenido 7.5 exactos, gana `;
+        if (!isNaN(this._apuesta) && !isNaN(parseInt(this.jugador1.puntosAcumuladosJugador))) {
+            this.jugador1.puntosAcumuladosJugador = parseInt(this.jugador1.puntosAcumuladosJugador) + this._apuesta * 2;
+        }
+        console.log(this.jugador1.puntosAcumuladosJugador);
+    } else if (puntuacionBanca === 7.5) {
+        console.log(
+            `La banca ${this.banca.nombre} ha obtenido 7.5 exactos, gana y duplica la apuesta`
+        );
+        console.log(this.jugador1.puntosAcumuladosJugador);
+    } else if (puntuacionJugador1 > 7.5) {
+        console.log(
+            `El jugador ${this.jugador1.nombre} se ha pasado de 7.5, gana La Banca`
+        );
+        mostrarResul.innerText = `El jugador ${this.jugador1.nombre} se ha pasado de 7.5, gana La Banca`;
+        console.log(this.jugador1.puntosAcumuladosJugador);
     } else if (puntuacionBanca > 7.5) {
-      console.log(
-        `La banca se ha pasado de 7.5, El jugador ${this.jugador1.nombre} gana`
-      );
-      mostrarResul.innerText = `La banca se ha pasado de 7.5, El jugador ${this.jugador1.nombre} gana`;
-      this.jugador1.puntosAcumuladosJugador(this.apuesta+this.jugador1.getPuntosAcumuladosJugador());
-      console.log(this.jugador1.getPuntosAcumuladosJugador());
+        console.log(
+            `La banca se ha pasado de 7.5, El jugador ${this.jugador1.nombre} gana`
+        );
+        mostrarResul.innerText = `La banca se ha pasado de 7.5, El jugador ${this.jugador1.nombre} gana`;
+        if (!isNaN(this._apuesta) && !isNaN(parseInt(this.jugador1.puntosAcumuladosJugador))) {
+            this.jugador1.puntosAcumuladosJugador = parseInt(this.jugador1.puntosAcumuladosJugador) + this._apuesta;
+        }
+        console.log(this.jugador1.puntosAcumuladosJugador);
     } else if (puntuacionJugador1 > puntuacionBanca) {
-      console.log(`El jugador ${this.jugador1.nombre} gana`);
-      mostrarResul.innerText = `El ${this.jugador1.nombre} tiene más puntos que la banca, ${this.jugador1.nombre} gana`;
-      this.jugador1.puntosAcumuladosJugador(this.apuesta+this.jugador1.getPuntosAcumuladosJugador());
-      console.log(this.jugador1.getPuntosAcumuladosJugador());
-      console.log(this.jugador1.getPuntosAcumuladosJugador());
+        console.log(`El jugador ${this.jugador1.nombre} gana`);
+        mostrarResul.innerText = `El ${this.jugador1.nombre} tiene más puntos que la banca, ${this.jugador1.nombre} gana`;
+        if (!isNaN(this._apuesta) && !isNaN(parseInt(this.jugador1.puntosAcumuladosJugador))) {
+            this.jugador1.puntosAcumuladosJugador = parseInt(this.jugador1.puntosAcumuladosJugador) + this._apuesta;
+        }
+        console.log(this.jugador1.puntosAcumuladosJugador);
     } else if (puntuacionJugador1 < puntuacionBanca) {
-      console.log(`La banca gana`);
-      mostrarResul.innerText = `La banca tiene mas puntos que el jugador,la Banca gana`;
-      console.log(this.jugador1.getPuntosAcumuladosJugador());
+        console.log(`La banca gana`);
+        mostrarResul.innerText = `La banca tiene mas puntos que el jugador,la Banca gana`;
+        console.log(this.jugador1.puntosAcumuladosJugador);
     } else {
-      console.log(`Empate`);
-      mostrarResul.innerText = `Empate`;
-      console.log(this.jugador1.getPuntosAcumuladosJugador());
+        console.log(`Empate`);
+        mostrarResul.innerText = `Empate`;
+        console.log(this.jugador1.puntosAcumuladosJugador);
     }
     document.getElementById("IdPanel").appendChild(mostrarResul);
-  }
+}
+
+
+
+
+
 
   juegaBanca() {
     // La banca pide solo 1 carta

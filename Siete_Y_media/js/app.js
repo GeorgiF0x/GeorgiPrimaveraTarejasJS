@@ -8,16 +8,19 @@ import {Juego } from "./Clases/Juego.js";
 import { funcionesExportadas } from "./funciones/funciones.js";
 
 window.addEventListener('load', () => {
-    let jugadorGuardado = localStorage.getItem('jugador');
+    let jugadorGuardado = JSON.parse(localStorage.getItem('jugador'));
     if (jugadorGuardado) {
-        const jugador = JSON.parse(jugadorGuardado);
-        document.getElementById('IDNombre').value = jugador.nombre;
+        document.getElementById('IDNombre').value = jugadorGuardado.nombre;
     } else {
-
         document.getElementById('IDNombre').value = "Jugador1";
     }
-});
 
+    // Crear una instancia del jugador y asignar los puntos acumulados guardados
+    if (jugadorGuardado) {
+        const jugador = new Jugador(jugadorGuardado.nombre);
+        jugador.puntosAcumuladosJugador = jugadorGuardado._puntosAcumuladosJugador;
+    }
+});
 
 let sectiones=Array.from(document.querySelectorAll('section'));
 let panel= sectiones[1];
@@ -53,16 +56,26 @@ boton.innerText = "Empezar Juego";
 
 function empezarJuego(){
     let nombreJugador=document.getElementById('IDNombre').value
-    //guardar nombre de jugador 
-    localStorage.setItem('nombreJugador', nombreJugador);
     //poner nombre por defecto si no se ha rellenado
     if(nombreJugador==""){
         nombreJugador="jugador1";
     }
-    const jugador = new Jugador(nombreJugador);
+    let jugadorGuardado = JSON.parse(localStorage.getItem('jugador'));
+    let jugador;
+    if (jugadorGuardado && jugadorGuardado.nombre === nombreJugador) {
+        jugador = new Jugador(nombreJugador);
+        jugador.puntosAcumuladosJugador = jugadorGuardado._puntosAcumuladosJugador;
+        console.log("cambio",jugador);
+    } else {
+        jugador = new Jugador(nombreJugador);
+    }
+    console.log(jugador);
+
+
+   
     subseccion2.innerHTML=""; //limpio el contenido de la subseccion2
     subseccion2.innerHTML+=`<h2>${nombreJugador} puntos totales :${jugador._puntosAcumuladosJugador} </h2>`;
-    console.log(jugador);
+
 
 
 
@@ -88,6 +101,7 @@ function empezarJuego(){
         botonPlantarse.textContent = "Plantarse";
         botonPlantarse.addEventListener("click", () => {
             juego.jugador1Plantarse();
+            localStorage.setItem('jugador', JSON.stringify(jugador));
             console.log(jugador);
             contenedorBotones.innerHTML="";
             const botonNuevaPartida = document.createElement("Button");
@@ -143,7 +157,7 @@ function empezarJuego(){
     juego.iniciarJuego();
 
 
-    localStorage.setItem('jugador', JSON.stringify(jugador));
+    // localStorage.setItem('jugador', JSON.stringify(jugador));
 }
 boton.addEventListener("click",empezarJuego)
 subseccion2.appendChild(inputNombre);

@@ -11,7 +11,7 @@ export class Jugador {
         this._puntosAcumuladosJugador = parseInt(nuevosPuntos);
     }
 
-    get getPuntosAcumuladosJugador(){
+    get puntosAcumuladosJugador() {
         return this._puntosAcumuladosJugador;
     }
 
@@ -32,7 +32,7 @@ export class Jugador {
             const elementoLi = document.createElement("li");
             elementoLi.id = "liCarta" + index;
             const idCarta=elementoLi.id;
-            console.log(elementoLi);
+            // console.log(elementoLi);
             elementoLista.appendChild(elementoLi);
             carta.imprimirCarta(idCarta);
         });
