@@ -15,7 +15,7 @@ window.addEventListener('load', () => {
         document.getElementById('IDNombre').value = "Jugador1";
     }
 
-    // Crear una instancia del jugador y asignar los puntos acumulados guardados
+
     if (jugadorGuardado) {
         const jugador = new Jugador(jugadorGuardado.nombre);
         jugador.puntosAcumuladosJugador = jugadorGuardado._puntosAcumuladosJugador;
@@ -30,10 +30,53 @@ panel.style.justifyContent = 'center';
 panel.style.alignItems = 'center';
 panel.id="IdPanel";
 panel.innerHTML="";
-panel.innerHTML="<h2>Panel<h2>";
+
+
+var panelJugador = document.createElement("div");
+panelJugador.id="idPanelJugador";
+panel.appendChild(panelJugador);
+funcionesExportadas.agregarElementoAlDOM("h1", "Panel", "idPanelJugador");
+// panelJugador.innerHTML = "<h1>Panel</h1>";
+
+
+// panelJugador.style.border = "2px solid red"; // Bordes rojos
+panelJugador.style.height="100%";
+panelJugador.style.width="100%";
+panelJugador.style.display="flex";
+panelJugador.style.flexDirection = 'column';
+panelJugador.style.justifyContent = 'center';
+panelJugador.style.alignItems = 'center';
+
+
+
+
+var panelPartida = document.createElement("div");
+panelPartida.id="panelPartida";
+panelPartida.innerHTML = "";
+panel.appendChild(panelPartida);
+
+// panelPartida.style.border = "2px solid blue"; // Bordes azules
+panelPartida.style.height="100%";
+panelPartida.style.width="100%";
+panelPartida.style.height="100%";
+panelPartida.style.width="100%";
+panelPartida.style.display="flex";
+panelPartida.style.flexDirection = 'column';
+panelPartida.style.justifyContent = 'space-between';
+panelPartida.style.alignItems = 'center';
+
+
+
+
+panel.style.display = "flex";
+panel.style.flexDirection = "column";
+panel.style.alignItems = "center";
+panel.style.justifyContent = "center";
+
+
 let lista=document.createElement('ul');
 lista.id="listaPanel";
-panel.appendChild(lista);
+panelPartida.appendChild(lista);
 
 
 const baraja = new Baraja();
@@ -49,7 +92,7 @@ let subseccion2=subsecciones[1];
 let inputNombre = document.createElement("input");
 inputNombre.setAttribute("type", "text");
 inputNombre.id="IDNombre";
-console.log(inputNombre);
+
 let boton = document.createElement("button");
 boton.innerText = "Empezar Juego";
 
@@ -69,12 +112,16 @@ function empezarJuego(){
     } else {
         jugador = new Jugador(nombreJugador);
     }
-    console.log(jugador);
 
 
-   
+
+    subseccion2.style.overflow="auto";
     subseccion2.innerHTML=""; //limpio el contenido de la subseccion2
-    subseccion2.innerHTML+=`<h2>${nombreJugador} puntos totales :${jugador._puntosAcumuladosJugador} </h2>`;
+    subseccion2.innerHTML=`<h2>${jugador.nombre}</h2>`; 
+    panelJugador.innerHTML="";
+;
+    panelJugador.innerHTML+=`<h2>Total acumulado :${jugador._puntosAcumuladosJugador} Puntos </h2>`;
+    panelJugador.querySelector("h2").style.textAlign = "center";
 
 
 
@@ -91,13 +138,16 @@ function empezarJuego(){
         const cantidadApostada = parseInt(inputCantidadApuesta.value);
         // Cambiar la apuesta 
         juego.apuesta = cantidadApostada;
-        funcionesExportadas.agregarElementoAlDOM("p", `Se ha realizado una apuesta de ${cantidadApostada}`, "IdPanel");
+        funcionesExportadas.agregarElementoAlDOM("h2", `apuesta de esta partida: ${cantidadApostada}`, "idPanelJugador");
+       
         
     const contenedorBotones=document.createElement('div');
+    contenedorBotones.id="idPedirPlantar"
     contenedorBotones.style.display = 'flex';
     contenedorBotones.style.justifyContent = 'space-between';
 
         const botonPlantarse = document.createElement("button");
+        botonPlantarse.id="botonPlantarse";
         botonPlantarse.textContent = "Plantarse";
         botonPlantarse.addEventListener("click", () => {
             juego.jugador1Plantarse();
@@ -114,6 +164,7 @@ function empezarJuego(){
         });
 
     const botonPedirCarta = document.createElement("button");
+    botonPedirCarta.id="botonPedirCarta";
     const puntuacionManoJugador=document.createElement('h3');
     puntuacionManoJugador.innerText="Puntos en la mano "+juego.jugador1.calcularPuntuacion();
     botonPedirCarta.textContent = "Pedir Carta";
@@ -126,7 +177,7 @@ function empezarJuego(){
        puntuacionManoJugador.innerText="Puntos en la mano "+juego.jugador1.calcularPuntuacion();
        console.log(puntuacionManoJugador);
     });
-    subseccion2.insertBefore(puntuacionManoJugador, subseccion2.firstChild);
+    panelJugador.appendChild(puntuacionManoJugador);
     contenedorBotones.appendChild(botonPlantarse);
     contenedorBotones.appendChild(botonPedirCarta);
     subseccion2.appendChild(contenedorBotones);
@@ -134,9 +185,10 @@ function empezarJuego(){
 
     const inputCantidadApuesta = document.createElement('input');
     inputCantidadApuesta.type = 'number';
-    inputCantidadApuesta.value = 100; 
-    inputCantidadApuesta.min = 10; 
-    inputCantidadApuesta.step = 10; 
+    inputCantidadApuesta.value = 1; 
+    inputCantidadApuesta.min = 1;
+    inputCantidadApuesta.max = jugador._puntosAcumuladosJugador; 
+   
 
     const botonHacerApuesta = document.createElement('button');
     botonHacerApuesta.textContent = 'Hacer Apuesta';

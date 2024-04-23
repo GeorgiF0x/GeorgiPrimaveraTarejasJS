@@ -1,6 +1,7 @@
 import {Baraja } from "./Baraja.js";
 import {Jugador } from "./Jugador.js";
 import {Banca } from "./Banca.js";
+import { funcionesExportadas } from "../funciones/funciones.js";
 
 export class Juego {
   constructor(baraja, jugador1, banca, apuesta) {
@@ -29,7 +30,7 @@ export class Juego {
   iniciarJuego() {
     // console.log(`se han repartido las cartas y se ha hecho la apuesta con valor ${this.apuesta}`);
     let elementoLi = document.createElement("li");
-    elementoLi.innerText = `se han repartido las cartas`;
+    elementoLi.innerText = `se han repartido las cartas haga su apuesta`;
 
  
     document.getElementById("listaPanel").appendChild(elementoLi);
@@ -72,25 +73,63 @@ export class Juego {
             `El jugador ${this.jugador1.nombre} ha obtenido 7.5 exactos, gana y duplica la apuesta`
         );
         mostrarResul.innerText = `El jugador ${this.jugador1.nombre} ha obtenido 7.5 exactos, gana `;
+        //acabar automaticamente la partida
+        let contenedorBotones=document.getElementById("idPedirPlantar")
+        contenedorBotones.innerHTML="";
+        const botonNuevaPartida = document.createElement("Button");
+        botonNuevaPartida.innerText="Jugar De Nuevo";
+        botonNuevaPartida.addEventListener("click", () => {
+           
+            window.location.reload();
+        });
+        contenedorBotones.appendChild(botonNuevaPartida);
+        funcionesExportadas.agregarElementoAlDOM("h3",`+${this._apuesta * 2}Puntos`,"")
+        agregarElementoAlDOM("h1", "Panel", "idPanelJugador");
         if (!isNaN(this._apuesta) && !isNaN(parseInt(this.jugador1.puntosAcumuladosJugador))) {
             this.jugador1.puntosAcumuladosJugador = parseInt(this.jugador1.puntosAcumuladosJugador) + this._apuesta * 2;
         }
+
         console.log(this.jugador1.puntosAcumuladosJugador);
     } else if (puntuacionBanca === 7.5) {
         console.log(
             `La banca ${this.banca.nombre} ha obtenido 7.5 exactos, gana y duplica la apuesta`
         );
+          mostrarResul.innerText = `La banca ha obtenido 7.5 exactos, La banca gana `;
+          //acabar automaticamente la partida
+          localStorage.setItem('jugador', JSON.stringify(this.jugador1));
+          let contenedorBotones=document.getElementById("idPedirPlantar")
+          contenedorBotones.innerHTML="";
+          const botonNuevaPartida = document.createElement("Button");
+          botonNuevaPartida.innerText="Jugar De Nuevo";
+          botonNuevaPartida.addEventListener("click", () => {
+             
+              window.location.reload();
+          });
+          // this.jugador1.puntosAcumuladosJugador = parseInt(this.jugador1.puntosAcumuladosJugador) - this._apuesta;
+          contenedorBotones.appendChild(botonNuevaPartida);
         console.log(this.jugador1.puntosAcumuladosJugador);
     } else if (puntuacionJugador1 > 7.5) {
         console.log(
             `El jugador ${this.jugador1.nombre} se ha pasado de 7.5, gana La Banca`
         );
         mostrarResul.innerText = `El jugador ${this.jugador1.nombre} se ha pasado de 7.5, gana La Banca`;
+        //acabar automaticamente la partida
+        localStorage.setItem('jugador', JSON.stringify(this.jugador1));
+        let contenedorBotones=document.getElementById("idPedirPlantar")
+        contenedorBotones.innerHTML="";
+        const botonNuevaPartida = document.createElement("Button");
+        botonNuevaPartida.innerText="Jugar De Nuevo";
+        botonNuevaPartida.addEventListener("click", () => {
+           
+            window.location.reload();
+        });
+        contenedorBotones.appendChild(botonNuevaPartida);
         console.log(this.jugador1.puntosAcumuladosJugador);
     } else if (puntuacionBanca > 7.5) {
         console.log(
             `La banca se ha pasado de 7.5, El jugador ${this.jugador1.nombre} gana`
         );
+        funcionesExportadas.agregarElementoAlDOM("h3","+"+this._apuesta +" Puntos","idPanelJugador");
         mostrarResul.innerText = `La banca se ha pasado de 7.5, El jugador ${this.jugador1.nombre} gana`;
         if (!isNaN(this._apuesta) && !isNaN(parseInt(this.jugador1.puntosAcumuladosJugador))) {
             this.jugador1.puntosAcumuladosJugador = parseInt(this.jugador1.puntosAcumuladosJugador) + this._apuesta;
@@ -99,6 +138,7 @@ export class Juego {
     } else if (puntuacionJugador1 > puntuacionBanca) {
         console.log(`El jugador ${this.jugador1.nombre} gana`);
         mostrarResul.innerText = `El ${this.jugador1.nombre} tiene más puntos que la banca, ${this.jugador1.nombre} gana`;
+        funcionesExportadas.agregarElementoAlDOM("h3","+"+this._apuesta +"Puntos","idPanelJugador");
         if (!isNaN(this._apuesta) && !isNaN(parseInt(this.jugador1.puntosAcumuladosJugador))) {
             this.jugador1.puntosAcumuladosJugador = parseInt(this.jugador1.puntosAcumuladosJugador) + this._apuesta;
         }
@@ -106,13 +146,15 @@ export class Juego {
     } else if (puntuacionJugador1 < puntuacionBanca) {
         console.log(`La banca gana`);
         mostrarResul.innerText = `La banca tiene mas puntos que el jugador,la Banca gana`;
+        // this.jugador1.puntosAcumuladosJugador = parseInt(this.jugador1.puntosAcumuladosJugador) - this._apuesta;
         console.log(this.jugador1.puntosAcumuladosJugador);
     } else {
         console.log(`Empate`);
         mostrarResul.innerText = `Empate`;
+        funcionesExportadas.agregarElementoAlDOM("h3","no pierdes ni ganas puntos","idPanelJugador");
         console.log(this.jugador1.puntosAcumuladosJugador);
     }
-    document.getElementById("IdPanel").appendChild(mostrarResul);
+    document.getElementById("listaPanel").appendChild(mostrarResul);
 }
 
 
