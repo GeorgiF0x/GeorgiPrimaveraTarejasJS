@@ -43,7 +43,7 @@ funcionesExportadas.agregarElementoAlDOM("h1", "Panel", "idPanelJugador");
 panelJugador.style.height="100%";
 panelJugador.style.width="100%";
 panelJugador.style.display="flex";
-panelJugador.style.flexDirection = 'column';
+panelJugador.style.flexDirection = 'column'; 
 panelJugador.style.justifyContent = 'center';
 panelJugador.style.alignItems = 'center';
 
@@ -80,7 +80,7 @@ panelPartida.appendChild(lista);
 
 
 const baraja = new Baraja();
-baraja.construirBaraja();
+// baraja.construirBaraja();
 // baraja.cartas.forEach(element => {
 //     console.log(element.valor);
 // });
@@ -207,7 +207,6 @@ function empezarJuego(){
     const banca = new Banca('Banca');
     const juego = new Juego(baraja, jugador, banca, 100); 
     juego.iniciarJuego();
-
 
     // localStorage.setItem('jugador', JSON.stringify(jugador));
 }
