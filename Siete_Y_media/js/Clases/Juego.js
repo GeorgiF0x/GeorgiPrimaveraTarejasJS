@@ -105,7 +105,9 @@ export class Juego {
              
               window.location.reload();
           });
-          // this.jugador1.puntosAcumuladosJugador = parseInt(this.jugador1.puntosAcumuladosJugador) - this._apuesta;
+        // if (!isNaN(this._apuesta) && !isNaN(parseInt(this.jugador1.puntosAcumuladosJugador))) {
+        //   this.jugador1.puntosAcumuladosJugador = parseInt(this.jugador1.puntosAcumuladosJugador) - this._apuesta;
+        // }
           contenedorBotones.appendChild(botonNuevaPartida);
         console.log(this.jugador1.puntosAcumuladosJugador);
     } else if (puntuacionJugador1 > 7.5) {
@@ -146,7 +148,9 @@ export class Juego {
     } else if (puntuacionJugador1 < puntuacionBanca) {
         console.log(`La banca gana`);
         mostrarResul.innerText = `La banca tiene mas puntos que el jugador,la Banca gana`;
-        // this.jugador1.puntosAcumuladosJugador = parseInt(this.jugador1.puntosAcumuladosJugador) - this._apuesta;
+        // if (!isNaN(this._apuesta) && !isNaN(parseInt(this.jugador1.puntosAcumuladosJugador))) {
+        //   this.jugador1.puntosAcumuladosJugador = parseInt(this.jugador1.puntosAcumuladosJugador) - this._apuesta;
+        // }
         console.log(this.jugador1.puntosAcumuladosJugador);
     } else {
         console.log(`Empate`);
