@@ -1,6 +1,6 @@
 const mysql=require("mysql2");
  const db=mysql.createConnection({
-    host:"192.168.7.103",
+    host:"192.168.56.1", //cambiar en clase
     port:3307,
     user:"user",
     password:"user123",
