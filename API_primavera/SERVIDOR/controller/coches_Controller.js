@@ -61,19 +61,23 @@ const putCoche = (req, res) => {
   });
 };
 
+
 const patchCoche = (req, res) => {
   const idRegistro = req.params.id;
   const { nombre, cantidad } = req.body;
   const sql = 'UPDATE coches SET nombre=?, cantidad=? WHERE id = ?';
+  
   db.query(sql, [nombre, cantidad, idRegistro], (err, resultado) => {
     if (err) {
       console.error("Error al actualizar el registro en la base de datos:", err);
       return res.status(500).json({ error: "Error interno del servidor", message: err.message }); 
     }
+    
     if (resultado.affectedRows === 0) {
       return res.status(404).json({ error: "Coche no encontrado" });
     }
-    res.json({ actualizado: true, nombre: nombre, cantidad: cantidad, id: idRegistro });
+    
+    res.json({ actualizado: true, nombre, cantidad, id: idRegistro });
   });
 };
 

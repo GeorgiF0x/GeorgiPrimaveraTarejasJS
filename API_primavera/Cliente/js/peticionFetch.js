@@ -3,13 +3,11 @@
 function fetchGet(url, id = '') {
     return new Promise((resolve, reject) => {
         const peticion = new XMLHttpRequest();
-        if (id) {
+        if (id) { // si solo le mando url que busque /coches
             urlCompleta = `${url}/coches/${id}`;
         } else {
             urlCompleta = url + '/coches';
         }
-        //con ternario
-        // const urlCompleta = id ? `${url}/coches/${id}` : url + '/coches';
         peticion.open('GET', urlCompleta);
         peticion.send();
         peticion.addEventListener('load', function () {
@@ -93,7 +91,7 @@ document.getElementById('modificarCoche').addEventListener('submit', (event) => 
 //PATCH
 function fetchPatch(url, id, datos) {
     return fetch(`${url}/coches/patch/${id}`, {
-        method: 'PATCH', // Usamos el método PATCH
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -101,7 +99,7 @@ function fetchPatch(url, id, datos) {
     });
 }
 
-// Manejador de evento para el formulario de modificar coche (PATCH)
+
 document.getElementById('modificarCochePatch').addEventListener('submit', (event) => {
     event.preventDefault();
 

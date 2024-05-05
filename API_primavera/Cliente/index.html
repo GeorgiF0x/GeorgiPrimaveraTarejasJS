@@ -8,12 +8,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
+    <div class="container ">
+        <h1 class="text text-center fw-bold mt-3">Tarea Peticiones Fetch</h1>
         <div class="row">
             <div class="col">
-                <fieldset class="mb-3">
-                    <legend>Buscar Coche por ID</legend>
-                    <form method="get" id="getCoche" name="getCoche">
+                <fieldset class="mb-3 border border-dark rounded mt-3">
+                    <legend class="text text-center">Buscar Coche por ID</legend>
+                    <form class="ms-3 mx-3" method="get" id="getCoche" name="getCoche">
                         <div class="mb-3">
                             <label for="id-coche" class="form-label">Coche ID:</label>
                             <input type="number" name="id-coche" id="id-coche" class="form-control" required>
@@ -24,9 +25,11 @@
                 </fieldset>
             </div>
             <div class="col">
-                <fieldset class="mb-3">
-                    <legend>Ver Todos los Coches</legend>
-                    <button type="button" id="verTodos" class="btn btn-success">Ver Coches</button>
+                <fieldset class="mb-3 border border-dark rounded mt-3">
+                    <legend class="text text-center">Ver Todos los Coches</legend>
+                    <div class="text text-center">
+                        <button type="button" id="verTodos" class="btn btn-success">Ver Coches</button>
+                    </div>
                     <ul id="lista-coches" class="list-group mt-3 text text-center">
                     </ul>
                 </fieldset>
@@ -34,9 +37,9 @@
         </div>
         <div class="row">
             <div class="col">
-                <fieldset class="mb-3">
-                    <legend>Modificar Coche</legend>
-                    <form method="post" id="modificarCoche" name="modificarCoche">
+                <fieldset class="mb-3 border border-dark rounded mt-3">
+                    <legend class="text text-center">Modificar Coche</legend>
+                    <form class="ms-3 mx-3" method="post" id="modificarCoche" name="modificarCoche">
                         <div class="mb-3">
                             <label for="id-coche-modificar" class="form-label">ID del Coche:</label>
                             <input type="number" name="id-coche-modificar" id="id-coche-modificar" class="form-control" required>
@@ -55,9 +58,9 @@
                 </fieldset>
             </div>
             <div class="col">
-                <fieldset class="mb-3">
-                    <legend>Modificar Coche (PATCH)</legend>
-                    <form method="post" id="modificarCochePatch" name="modificarCochePatch">
+                <fieldset class="mb-3 border border-dark rounded mt-3">
+                    <legend class="text text-center">Modificar Coche (PATCH)</legend>
+                    <form class="ms-3 mx-3" method="post" id="modificarCochePatch" name="modificarCochePatch">
                         <div class="mb-3">
                             <label for="id-coche-modificar-patch" class="form-label">ID del Coche:</label>
                             <input type="number" name="id-coche-modificar-patch" id="id-coche-modificar-patch" class="form-control" required>
@@ -78,9 +81,9 @@
         </div>
         <div class="row">
             <div class="col">
-                <fieldset class="mb-3">
-                    <legend>Eliminar Coche</legend>
-                    <form method="post" id="eliminarCoche" name="eliminarCoche">
+                <fieldset class="mb-3 border border-dark rounded mt-3">
+                    <legend class="text text-center">Eliminar Coche</legend>
+                    <form class="ms-3 mx-3" method="post" id="eliminarCoche" name="eliminarCoche">
                         <div class="mb-3">
                             <label for="id-coche-eliminar" class="form-label">ID del Coche:</label>
                             <input type="number" name="id-coche-eliminar" id="id-coche-eliminar" class="form-control" required>
@@ -91,9 +94,9 @@
                 </fieldset>
             </div>
             <div class="col">
-                <fieldset class="mb-3">
-                    <legend>Añadir Coche</legend>
-                    <form method="post" id="agregarCoche" name="agregarCoche">
+                <fieldset class="mb-3 border border-dark rounded mt-3">
+                    <legend class="text text-center">Añadir Coche</legend>
+                    <form class="ms-3 mx-3" method="post" id="agregarCoche" name="agregarCoche">
                         <div class="mb-3">
                             <label for="nombre-coche-agregar" class="form-label">Nombre del Coche:</label>
                             <input type="text" name="nombre-coche-agregar" id="nombre-coche-agregar" class="form-control" required>
