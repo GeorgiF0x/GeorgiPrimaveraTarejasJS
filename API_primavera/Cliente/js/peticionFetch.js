@@ -1,26 +1,202 @@
-function fetch0(url){
-    return new Promise((resolve, reject)=>{
-        const peticion=new XMLHttpRequest();
-        peticion.open('GET', url);
+
+// Función para hacer peticiones GET
+function fetchGet(url, id = '') {
+    return new Promise((resolve, reject) => {
+        const peticion = new XMLHttpRequest();
+        if (id) {
+            urlCompleta = `${url}/coches/${id}`;
+        } else {
+            urlCompleta = url + '/coches';
+        }
+        //con ternario
+        // const urlCompleta = id ? `${url}/coches/${id}` : url + '/coches';
+        peticion.open('GET', urlCompleta);
         peticion.send();
-        peticion.addEventListener('load', function(){
+        peticion.addEventListener('load', function () {
             resolve(peticion.responseText);
         });
     })
 }
-console.log(document.getElementById('p1'));
-document.getElementById('getCoche').addEventListener('submit', (event)=>{
+document.getElementById('getCoche').addEventListener('submit', (event) => {
     event.preventDefault();
-    const url='http://127.0.0.1:3000';
-    const idCiudad= document.getElementById('id-coche').value;
-    console.log(idCiudad);
-    fetch0(url+'/coches/'+ idCiudad)
-        .then(datosCrudos=>{
-            console.log(datosCrudos);
-            return JSON.parse(datosCrudos);
+    const url = 'http://127.0.0.1:3000';
+    const idCoche = document.getElementById('id-coche').value;
+    fetchGet(url, idCoche)
+        .then(datosCrudos => {
+            const datosObjeto = JSON.parse(datosCrudos);
+            document.getElementById('p1').innerText=`ID ${datosObjeto[0].id}, Nombre: ${datosObjeto[0].nombre}, Cantidad Vendida: ${datosObjeto[0].cantidad}`;            
         })
-        .then(datosObjeto=>console.log(datosObjeto[0].nombre))
-        .then(datosObjeto=>document.getElementById('p1').innerText=`nombre : ${datosObjeto[0].nombre} cantidad Vendida : ${datosObjeto[0].cantidad}`)
-        .catch(error=>console.log(error));
+        .catch(error => console.log(error));
 });
 
+
+// PARA VER TODOS 
+document.getElementById('verTodos').addEventListener('click', () => {
+    const url = 'http://127.0.0.1:3000';
+    fetchGet(url)
+        .then(datosCrudos => {
+            const datosObjeto = JSON.parse(datosCrudos);
+            const listaCoches = document.getElementById('lista-coches');
+            listaCoches.innerHTML = ''; 
+            datosObjeto.forEach(coche => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `ID ${coche.id}, Nombre: ${coche.nombre}, Cantidad Vendida: ${coche.cantidad}`;
+                listItem.classList.add('list-group-item');
+                listaCoches.appendChild(listItem);
+            });
+        })
+        .catch(error => console.log(error));
+});
+
+
+
+//PUT
+function fetchPut(url, id, datos) {
+    return fetch(`${url}/coches/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos)
+    });
+}
+
+// Manejador de evento para el formulario de modificar coche
+document.getElementById('modificarCoche').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const url = 'http://127.0.0.1:3000';
+    const idCoche = document.getElementById('id-coche-modificar').value;
+    const nombreCoche = document.getElementById('nombre-coche').value;
+    const cantidadCoche = document.getElementById('cantidad-coche').value;
+
+    const datosCoche = {
+        nombre: nombreCoche,
+        cantidad: cantidadCoche
+    };
+
+    fetchPut(url, idCoche, datosCoche)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al modificar el coche.');
+            }
+            return response.json();
+        })
+        .then(datos => {
+            document.getElementById('mensaje-modificacion').innerText = 'El coche ha sido modificado deforma correcta.';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('mensaje-modificacion').innerText = 'Error al modificar el coche.';
+        });
+});
+
+//PATCH
+function fetchPatch(url, id, datos) {
+    return fetch(`${url}/coches/patch/${id}`, {
+        method: 'PATCH', // Usamos el método PATCH
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos)
+    });
+}
+
+// Manejador de evento para el formulario de modificar coche (PATCH)
+document.getElementById('modificarCochePatch').addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const url = 'http://127.0.0.1:3000';
+    const idCoche = document.getElementById('id-coche-modificar-patch').value;
+    const nombreCoche = document.getElementById('nombre-coche-patch').value;
+    const cantidadCoche = document.getElementById('cantidad-coche-patch').value;
+
+    const datosCoche = {
+        nombre: nombreCoche,
+        cantidad: cantidadCoche
+    };
+
+    fetchPatch(url, idCoche, datosCoche)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al modificar el coche.');
+            }
+            return response.json();
+        })
+        .then(datos => {
+            document.getElementById('mensaje-modificacion-patch').innerText = 'El coche ha sido modificado correctamente.';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('mensaje-modificacion-patch').innerText = 'Error al modificar el coche.';
+        });
+});
+
+//delete 
+function fetchDelete(url, id) {
+    return fetch(`${url}/coches/${id}`, {
+        method: 'DELETE',
+    });
+}
+
+document.getElementById('eliminarCoche').addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const url = 'http://127.0.0.1:3000';
+    const idCoche = document.getElementById('id-coche-eliminar').value;
+
+    fetchDelete(url, idCoche)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al eliminar el coche.');
+            }
+            return response.json();
+        })
+        .then(datos => {
+            document.getElementById('mensaje-eliminacion').innerText = 'El coche ha sido eliminado correctamente.';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('mensaje-eliminacion').innerText = 'Error al eliminar el coche.';
+        });
+});
+
+
+//POST 
+
+function fetchPost(url, datos) {
+    return fetch(`${url}/coches`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos)
+    });
+}
+
+document.getElementById('agregarCoche').addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const url = 'http://127.0.0.1:3000';
+    const nombreCoche = document.getElementById('nombre-coche-agregar').value;
+    const cantidadCoche = document.getElementById('cantidad-coche-agregar').value;
+
+    const datosCoche = {
+        nombre: nombreCoche,
+        cantidad: cantidadCoche
+    };
+
+    fetchPost(url, datosCoche)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al agregar el coche.');
+            }
+            return response.json();
+        })
+        .then(datos => {
+            document.getElementById('mensaje-agregar').innerText = 'El coche ha sido agregado correctamente.';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('mensaje-agregar').innerText = 'Error al agregar el coche.';
+        });
+});
