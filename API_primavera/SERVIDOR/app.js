@@ -10,9 +10,18 @@ app.use(cors());
 //middlewares
 app.use(express.json());
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(err.status || 500).send({
+        error: {
+            message: err.message || 'Internal Server Error',
+            statusCode: err.status || 500
+        }
+    });
+});
+
 //asi establece /coches como raiz para rutasCoches
 app.use("/coches",rutasCoches);
-
 
 
 

@@ -1,4 +1,4 @@
-
+import { funcionesExportadas } from "./funciones/errores.js";
 // Función para hacer peticiones GET
 function fetchGet(url, id = '') {
     return new Promise((resolve, reject) => {
@@ -22,9 +22,15 @@ document.getElementById('getCoche').addEventListener('submit', (event) => {
     fetchGet(url, idCoche)
         .then(datosCrudos => {
             const datosObjeto = JSON.parse(datosCrudos);
-            document.getElementById('p1').innerText=`ID ${datosObjeto[0].id}, Nombre: ${datosObjeto[0].nombre}, Cantidad Vendida: ${datosObjeto[0].cantidad}`;            
+            document.getElementById('p1').style.color="black";
+            document.getElementById('p1').innerText=`ID ${datosObjeto[0].id}, Nombre: ${datosObjeto[0].nombre}, Cantidad Vendida: ${datosObjeto[0].cantidad.toLocaleString("de-DE")}`;            
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+            document.getElementById('p1').style.color="red";
+            document.getElementById('p1').innerText=`El id indicado no existe`;            
+            console.log(error)
+        })
+
 });
 
 
@@ -38,7 +44,7 @@ document.getElementById('verTodos').addEventListener('click', () => {
             listaCoches.innerHTML = ''; 
             datosObjeto.forEach(coche => {
                 const listItem = document.createElement('li');
-                listItem.textContent = `ID ${coche.id}, Nombre: ${coche.nombre}, Cantidad Vendida: ${coche.cantidad}`;
+                listItem.textContent = `ID ${coche.id}, Nombre: ${coche.nombre}, Cantidad Vendida: ${coche.cantidad.toLocaleString("de-DE")}`;
                 listItem.classList.add('list-group-item');
                 listaCoches.appendChild(listItem);
             });
@@ -145,7 +151,7 @@ document.getElementById('eliminarCoche').addEventListener('submit', (event) => {
     fetchDelete(url, idCoche)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Error al eliminar el coche.');
+                throw new Error('Error al eliminar el coche: ' + response.status);
             }
             return response.json();
         })
@@ -153,14 +159,14 @@ document.getElementById('eliminarCoche').addEventListener('submit', (event) => {
             document.getElementById('mensaje-eliminacion').innerText = 'El coche ha sido eliminado correctamente.';
         })
         .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('mensaje-eliminacion').innerText = 'Error al eliminar el coche.';
+            console.error(error);
+            const elementoError=document.getElementById('mensaje-eliminacion');
+            funcionesExportadas.gestionErrores(error,elementoError);
         });
 });
 
 
 //POST 
-
 function fetchPost(url, datos) {
     return fetch(`${url}/coches`, {
         method: 'POST',
