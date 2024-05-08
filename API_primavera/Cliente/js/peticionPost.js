@@ -1,3 +1,4 @@
+
 import { funcionesExportadas } from "./funciones/errores.js";
 // Función para hacer peticiones GET
 function fetchGet(url, id = '') {
@@ -17,24 +18,7 @@ function fetchGet(url, id = '') {
     })
 }
 
-document.getElementById('getCoche').addEventListener('submit', (event) => {
-    event.preventDefault();
-    const url = 'http://127.0.0.1:3000';
-    const idCoche = document.getElementById('id-coche').value;
-    fetchGet(url, idCoche)
-        .then(datosCrudos => {
-            const datosObjeto = JSON.parse(datosCrudos);[0]
-            document.getElementById('nombre-coche').value = datosObjeto[0].nombre;
-            document.getElementById('cantidad-coche').value =datosObjeto[0].cantidad;
-        })
-        .catch(error => {
-            document.getElementById('mensaje-modificacion').style.color="red";
-            const elementoError = document.getElementById('mensaje-modificacion');
-            funcionesExportadas.gestionErrores(error, elementoError);          
-            console.log(error)
-        })
 
-});
 
 
 // PARA VER TODOS 
@@ -110,10 +94,10 @@ function eliminarCoche(idCoche) {
 }
 
 
-//PUT
-function fetchPut(url, id, datos) {
-    return fetch(`${url}/coches/${id}`, {
-        method: 'PUT',
+//POST 
+function fetchPost(url, datos) {
+    return fetch(`${url}/coches`, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -121,33 +105,32 @@ function fetchPut(url, id, datos) {
     });
 }
 
-
-document.getElementById('modificarCoche').addEventListener('submit', (event) => {
+document.getElementById('agregarCoche').addEventListener('submit', (event) => {
     event.preventDefault();
+
     const url = 'http://127.0.0.1:3000';
-    const idCoche = document.getElementById('id-coche').value;
-    const nombreCoche = document.getElementById('nombre-coche').value;
-    const cantidadCoche = document.getElementById('cantidad-coche').value;
+    const nombreCoche = document.getElementById('nombre-coche-agregar').value;
+    const cantidadCoche = document.getElementById('cantidad-coche-agregar').value;
 
     const datosCoche = {
         nombre: nombreCoche,
         cantidad: cantidadCoche
     };
 
-    fetchPut(url, idCoche, datosCoche)
+    fetchPost(url, datosCoche)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Error al modificar el coche.');
+                throw new Error('Error al agregar el coche.');
             }
             return response.json();
         })
         .then(datos => {
-            document.getElementById('mensaje-modificacion').classList.add("text-success");
-            document.getElementById('mensaje-modificacion').innerText = 'El coche ha sido modificado deforma correcta.';
+            document.getElementById('mensaje-agregar').innerText = 'El coche ha sido agregado correctamente.';
             document.getElementById('verTodos').click(); 
         })
         .catch(error => {
             console.error('Error:', error);
-            document.getElementById('mensaje-modificacion').innerText = 'Error al modificar el coche.';
+            const elementoError=document.getElementById('mensaje-agregar');
+            funcionesExportadas.gestionErrores(error,elementoError);
         });
 });

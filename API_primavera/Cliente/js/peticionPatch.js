@@ -25,7 +25,7 @@ document.getElementById('getCoche').addEventListener('submit', (event) => {
         .then(datosCrudos => {
             const datosObjeto = JSON.parse(datosCrudos);[0]
             document.getElementById('nombre-coche').value = datosObjeto[0].nombre;
-            document.getElementById('cantidad-coche').value = datosObjeto[0].cantidad.toLocaleString("de-DE");
+            document.getElementById('cantidad-coche').value = datosObjeto[0].cantidad;
 
             document.getElementById('nombre-coche-original').value = datosObjeto[0].nombre;
             document.getElementById('cantidad-coche-original').value = datosObjeto[0].cantidad.toLocaleString("de-DE");
@@ -157,6 +157,7 @@ document.getElementById('modificarCochePatch').addEventListener('submit', (event
         })
         .then(datos => {
             document.getElementById('mensaje-modificacion-patch').innerText = 'El coche ha sido modificado correctamente.';
+            document.getElementById('verTodos').click(); 
         })
         .catch(error => {
             console.error('Error:', error);

@@ -1,0 +1,24 @@
+    ORGANIZAR MENU
+    AÑADIR BOTON HOME
+
+
+    BASE DE DATOS
+        Marca
+            -id
+            -nombre
+            -cantidadId
+        concesionarios
+            -id
+            -nombre
+            -marcaId
+        concesionarios
+            -id
+            -nombre
+            -marcaId
+        Ventas
+            -id
+            -concesionarioId
+            -marcaId
+            -Cantidad
+
+
