@@ -27,7 +27,8 @@ document.getElementById('getCoche').addEventListener('submit', (event) => {
         })
         .catch(error => {
             document.getElementById('p1').style.color="red";
-            document.getElementById('p1').innerText=`El id indicado no existe`;            
+            const elementoError=document.getElementById('p1');
+            funcionesExportadas.gestionErrores(error,elementoError);           
             console.log(error)
         })
 
@@ -65,7 +66,7 @@ function fetchPut(url, id, datos) {
     });
 }
 
-// Manejador de evento para el formulario de modificar coche
+
 document.getElementById('modificarCoche').addEventListener('submit', (event) => {
     event.preventDefault();
     const url = 'http://127.0.0.1:3000';
@@ -201,6 +202,7 @@ document.getElementById('agregarCoche').addEventListener('submit', (event) => {
         })
         .catch(error => {
             console.error('Error:', error);
-            document.getElementById('mensaje-agregar').innerText = 'Error al agregar el coche.';
+            const elementoError=document.getElementById('mensaje-agregar');
+            funcionesExportadas.gestionErrores(error,elementoError);
         });
 });
