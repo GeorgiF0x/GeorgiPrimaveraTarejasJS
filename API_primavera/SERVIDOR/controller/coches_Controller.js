@@ -1,9 +1,10 @@
+
+
 const db=require('../dataBase/db.js');
 
-
-const getCoches=(req,res)=>{ //127.0.0.1:3000/coches
-  db.getConnection((err,connection)=>{
-    connection.query('SELECT * FROM coches', (err, resultados) => {
+const getMarcas = (req, res) => { //127.0.0.1:3000/marcas
+  db.getConnection((err, connection) => {
+    connection.query('SELECT * FROM marcas', (err, resultados) => {
       if (err) {
         console.error('Error al obtener datos desde la base de datos:', err);
         res.status(500).json({ error: 'Error interno del servidor' });
@@ -15,11 +16,11 @@ const getCoches=(req,res)=>{ //127.0.0.1:3000/coches
   });
 }
 
-const crearCoche = (req, res) => { 
-  const { nombre, cantidad } = req.body; // 
+const crearMarca = (req, res) => {
+  const { nombre, cantidad } = req.body;
   const values = [[nombre, cantidad]];
-  db.getConnection((err,connection)=>{
-    connection.query('INSERT INTO coches (nombre, cantidad) VALUES ?', [values], (err, resultado) => {
+  db.getConnection((err, connection) => {
+    connection.query('INSERT INTO marcas (nombre, cantidad) VALUES ?', [values], (err, resultado) => {
       if (err) {
         console.error('Error al guardar datos en la base de datos:', err);
         res.status(500).json({ error: 'Error interno del servidor' });
@@ -31,42 +32,32 @@ const crearCoche = (req, res) => {
   });
 };
 
-
-
-
-
-//para obtener un registro
-const getCocheById=(req,res)=>{ //127.0.0.1:3000/coches
-  const idRegistro= req.params.id;
-  db.getConnection((err,connection)=>{
-    connection.query('SELECT * FROM coches  where id = ?',[idRegistro], (err, resultados) => {
+const getMarcaById = (req, res) => { //127.0.0.1:3000/marcas/:id
+  const idRegistro = req.params.id;
+  db.getConnection((err, connection) => {
+    connection.query('SELECT * FROM marcas  where id = ?', [idRegistro], (err, resultados) => {
       if (err) {
         console.error('Error al obtener datos desde la base de datos:', err);
         res.status(500).json({ error: 'Error interno del servidor' });
       } else {
-        //verificar si se encontro el registro
         res.json(resultados);
-        // if(res.length>0){
-        // }else{
-        //   res.status(404).json({error:'Registro no encontrado'});
-        // }
         connection.release();
       }
     });
   });
 }
 
-const putCoche = (req, res) => {
+const putMarca = (req, res) => {
   const idRegistro = req.params.id;
-  db.getConnection((err,connection)=>{
-    const { nombre, cantidad } = req.body; //con nombre si con nombre no
-    const sql = 'UPDATE coches SET nombre=?, cantidad=? WHERE id = ?'; 
-    connection.query(sql, [nombre, cantidad, idRegistro], (err, resultado) => { 
+  db.getConnection((err, connection) => {
+    const { nombre, cantidad } = req.body;
+    const sql = 'UPDATE marcas SET nombre=?, cantidad=? WHERE id = ?';
+    connection.query(sql, [nombre, cantidad, idRegistro], (err, resultado) => {
       if (err) {
-        console.error("Error al actualizar el registro en la base de datos:", err); 
+        console.error("Error al actualizar el registro en la base de datos:", err);
         res.status(500).json({ error: "Error interno del servidor" });
       } else {
-        res.json({ actualizado: true, nombre: nombre, cantidad: cantidad, id: idRegistro }); 
+        res.json({ actualizado: true, nombre: nombre, cantidad: cantidad, id: idRegistro });
         connection.release();
       }
     });
@@ -74,62 +65,69 @@ const putCoche = (req, res) => {
 };
 
 
-const patchCoche = (req, res) => {
+const patchMarca = (req, res) => {
   const idRegistro = req.params.id;
-  db.getConnection((err,connection)=>{
-    const { nombre, cantidad } = req.body;
-    const sql = 'UPDATE coches SET nombre=?, cantidad=? WHERE id = ?';
-    
-    connection.query(sql, [nombre, cantidad, idRegistro], (err, resultado) => {
+  const { nombre, cantidad } = req.body;
+  let sql;
+  let values = [];
+
+
+  if (nombre && cantidad) {
+    sql = 'UPDATE marcas SET nombre=?, cantidad=? WHERE id = ?';
+    values = [nombre, cantidad, idRegistro];
+  } else if (nombre) {
+    sql = 'UPDATE marcas SET nombre=? WHERE id = ?';
+    values = [nombre, idRegistro];
+  } else {
+    sql = 'UPDATE marcas SET cantidad=? WHERE id = ?';
+    values = [cantidad, idRegistro];
+  }
+
+  db.getConnection((err, connection) => {
+    connection.query(sql, values, (err, resultado) => {
       if (err) {
         console.error("Error al actualizar el registro en la base de datos:", err);
-        return res.status(500).json({ error: "Error interno del servidor", message: err.message }); 
+        return res.status(500).json({ error: "Error interno del servidor", message: err.message });
       }
-      
+
       if (resultado.affectedRows === 0) {
-        return res.status(404).json({ error: "Coche no encontrado" });
+        return res.status(404).json({ error: "Marca no encontrada" });
       }
-      
+
       res.json({ actualizado: true, nombre, cantidad, id: idRegistro });
       connection.release();
     });
-  })
+  });
 };
 
-const deleteCoche = (req, res) => {
+
+const deleteMarca = (req, res) => {
   const idRegistro = req.params.id;
-  db.getConnection((err,connection)=>{
-    connection.query('DELETE FROM coches WHERE id = ?', [idRegistro], (err, resultados) => {
-        if (err) {
-            console.error("Error al borrar el registro:", err);
-            res.status(500).json({ error: 'Error interno del servidor' });
+  db.getConnection((err, connection) => {
+    connection.query('DELETE FROM marcas WHERE id = ?', [idRegistro], (err, resultados) => {
+      if (err) {
+        console.error("Error al borrar el registro:", err);
+        res.status(500).json({ error: 'Error interno del servidor' });
+      } else {
+
+        if (resultados.affectedRows > 0) {
+          res.json({ mensaje: `Registro con id: ${idRegistro} se eliminó correctamente` });
         } else {
-  
-            if (resultados.affectedRows > 0) {
-                res.json({ mensaje: `Registro con id: ${idRegistro} se eliminó correctamente` });
-            } else {
-                res.status(404).json({ error: `No se encontró el registro con id ${idRegistro}` });
-            }
-            connection.release();
+          res.status(404).json({ error: `No se encontró el registro con id ${idRegistro}` });
         }
+        connection.release();
+      }
     });
   })
 };
 
-
-
-
-
-
-
-
-module.exports={
-  getCoches,
-  crearCoche,
-  getCocheById,
-  putCoche,
-  patchCoche,
-  deleteCoche,
+module.exports = {
+  getMarcas,
+  crearMarca,
+  getMarcaById,
+  putMarca,
+  patchMarca,
+  deleteMarca,
 }
 
 

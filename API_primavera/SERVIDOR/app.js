@@ -2,7 +2,8 @@
 const express= require("express");
 const cors= require("cors");
 const rutasCoches= require("./router/rutas_Coches.js");
-  
+const rutasConcesionarios= require("./router/rutas_Concesionario.js");
+const rutasVnetas= require("./router/rutas_Ventas.js");
 
 const app = express();
 app.use(cors());
@@ -21,7 +22,9 @@ app.use((err, req, res, next) => {
 });
 
 //asi establece /coches como raiz para rutasCoches
-app.use("/coches",rutasCoches);
+app.use("/marcas",rutasCoches);
+app.use("/concesionarios",rutasConcesionarios);
+app.use("/ventas",rutasVnetas);
 
 
 
