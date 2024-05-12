@@ -51,13 +51,13 @@ const getConcesionarios = (req, res) => { // 127.0.0.1:3000/concesionarios
   
 
   const crearConcesionario = (req, res) => {
-    const { nombre, marcaId } = req.body;
+    const { nombre, idMarca } = req.body;
     
-    if (!nombre || !marcaId) {
+    if (!nombre || !idMarca) {
       return res.status(400).json({ error: 'Se requieren nombre y marcaId para crear un nuevo concesionario' });
     }
   
-    const values = [[nombre, marcaId]];
+    const values = [[nombre, idMarca]];
     
     db.getConnection((err, connection) => {
       if (err) {

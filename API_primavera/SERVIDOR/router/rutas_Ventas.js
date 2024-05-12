@@ -8,6 +8,8 @@ rutasVentas.get("/ultima",VentasController.getUltimaVenta);
 rutasVentas.get("/:id",VentasController.getVentaById);//en vez de ? poner : para los filtros
 rutasVentas.post("/",VentasController.crearVenta);
 rutasVentas.delete("/:id",VentasController.borrarVenta);
+rutasVentas.get("/todasVentas/:idMarca/:idConcesionario", VentasController.getVentasByMarcaConcesionario);
+
 
 
 module.exports=rutasVentas;

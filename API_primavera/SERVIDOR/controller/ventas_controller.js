@@ -43,6 +43,7 @@ const getVentas = (req, res) => { // 127.0.0.1:3000/ventas
       });
     });
   };
+
   
   const getUltimaVenta = (req, res) => { // 127.0.0.1:3000/ventas/ultima
     db.getConnection((err, connection) => {
@@ -118,6 +119,31 @@ const getVentas = (req, res) => { // 127.0.0.1:3000/ventas
       });
     });
   };
+
+
+
+  const getVentasByMarcaConcesionario = (req, res) => { // 127.0.0.1:3000/ventas/marca/:idMarca/concesionario/:idConcesionario
+    const idMarca = req.params.idMarca;
+    const idConcesionario = req.params.idConcesionario;
+
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.error('Error al obtener conexión con la base de datos:', err);
+            return res.status(500).json({ error: 'Error interno del servidor' });
+        }
+
+        connection.query('SELECT * FROM ventas WHERE idmarca = ? AND idconcesionario = ?', [idMarca, idConcesionario], (err, resultados) => {
+            if (err) {
+                console.error('Error al obtener datos desde la base de datos:', err);
+                res.status(500).json({ error: 'Error interno del servidor' });
+            } else {
+                res.json(resultados);
+            }
+            connection.release();
+        });
+    });
+};
+
   
   module.exports = {
     getVentas,
@@ -125,5 +151,6 @@ const getVentas = (req, res) => { // 127.0.0.1:3000/ventas
     getUltimaVenta,
     crearVenta,
     borrarVenta,
+    getVentasByMarcaConcesionario,
   };
   
