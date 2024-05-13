@@ -72,6 +72,8 @@ const getVentas = (req, res) => { // 127.0.0.1:3000/ventas
     const { idmarca, idconcesionario, cantidad } = req.body;
   
     if (!idmarca || !idconcesionario || !cantidad) {
+        //cambiar en casa los campo
+      // return res.status(400).json({ error: 'Se requieren idmarca, idconcesionario y cantidad para crear una venta' });
       return res.status(400).json({ error: 'Se requieren idmarca, idconcesionario y cantidad para crear una venta' });
     }
   
@@ -82,8 +84,9 @@ const getVentas = (req, res) => { // 127.0.0.1:3000/ventas
         console.error('Error al obtener conexión con la base de datos:', err);
         return res.status(500).json({ error: 'Error interno del servidor' });
       }
-  
-      connection.query('INSERT INTO ventas (idmarca, idconcesionario, cantidad) VALUES ?', [values], (err, resultado) => {
+      //cambair en casa el nombre de los campos
+      // connection.query('INSERT INTO ventas (idmarca, idconcesionario, cantidad) VALUES ?', [values], (err, resultado) => {
+        connection.query('INSERT INTO ventas (marcaId, concesionarioId, Cantidad) VALUES ?', [values], (err, resultado) => {
         if (err) {
           console.error('Error al guardar datos en la base de datos:', err);
           res.status(500).json({ error: 'Error interno del servidor' });
@@ -132,7 +135,8 @@ const getVentas = (req, res) => { // 127.0.0.1:3000/ventas
             return res.status(500).json({ error: 'Error interno del servidor' });
         }
 
-        connection.query('SELECT * FROM ventas WHERE idmarca = ? AND idconcesionario = ?', [idMarca, idConcesionario], (err, resultados) => {
+        // connection.query('SELECT * FROM ventas WHERE idmarca = ? AND idconcesionario = ?', [idMarca, idConcesionario], (err, resultados) => {
+          connection.query('SELECT * FROM ventas WHERE marcaId = ? AND concesionarioId = ?', [idMarca, idConcesionario], (err, resultados) => {
             if (err) {
                 console.error('Error al obtener datos desde la base de datos:', err);
                 res.status(500).json({ error: 'Error interno del servidor' });

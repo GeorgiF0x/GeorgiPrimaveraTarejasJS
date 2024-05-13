@@ -116,7 +116,7 @@ formVentas.addEventListener('submit', (event) => {
         tablaVentas.innerHTML = ''; 
 
         tablaVentas.innerHTML += `
-            <table class="table table-striped mt-2 mb-2">
+            <table class="table table-striped mt-2 mb-5">
                 <thead>
                     <tr>
                         <th>ID Venta</th>
@@ -137,7 +137,7 @@ formVentas.addEventListener('submit', (event) => {
             const fila = `
                 <tr>
                     <td>${venta.id}</td>
-                    <td>${venta.cantidad}</td>
+                    <td>${venta.Cantidad}</td>
                 </tr>
             `;
             tbodyVentas.innerHTML += fila;

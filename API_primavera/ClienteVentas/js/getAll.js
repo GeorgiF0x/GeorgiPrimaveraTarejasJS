@@ -1,4 +1,4 @@
-import { funcionesExportadas } from "./funciones/errores.js";
+
 // Función para hacer peticiones GET
 function fetchGet(url, id = '') {
     return new Promise((resolve, reject) => {

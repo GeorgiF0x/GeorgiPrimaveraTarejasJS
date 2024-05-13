@@ -23,13 +23,18 @@ document.getElementById('getCoche').addEventListener('submit', (event) => {
     const idCoche = document.getElementById('id-coche').value;
     fetchGet(url, idCoche)
         .then(datosCrudos => {
-            const datosObjeto = JSON.parse(datosCrudos);
-            document.getElementById('p1').style.color="black";
-            document.getElementById('p1').innerText=`ID ${datosObjeto[0].id}, Nombre: ${datosObjeto[0].nombre}, Cantidad Vendida: ${datosObjeto[0].cantidad.toLocaleString("de-DE")}`;            
+            const datosObjeto = JSON.parse(datosCrudos);[0]
+            document.getElementById('nombre-coche').value = datosObjeto[0].nombre;
+            document.getElementById('cantidad-coche').value = datosObjeto[0].cantidad;
+
+            document.getElementById('nombre-coche-original').value = datosObjeto[0].nombre;
+            document.getElementById('cantidad-coche-original').value = datosObjeto[0].cantidad.toLocaleString("de-DE");
+            document.getElementById('id-coche').value = datosObjeto[0].id;
         })
         .catch(error => {
-            document.getElementById('p1').style.color="red";
-            document.getElementById('p1').innerText=`El id indicado no existe`;            
+            document.getElementById('mensaje-modificacion-patch').style.color="red";
+            const elementoError = document.getElementById('mensaje-modificacion');
+            funcionesExportadas.gestionErrores(error, elementoError);          
             console.log(error)
         })
 
@@ -51,6 +56,7 @@ document.getElementById('verTodos').addEventListener('click', () => {
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>Cantidad Vendida</th>
+                        <th>Borrar</th>
                     </tr>
                 </thead>
             `;
@@ -59,10 +65,10 @@ document.getElementById('verTodos').addEventListener('click', () => {
             datosObjeto.forEach(coche => {
                 // fila para cada coche
                 tablaCoches.innerHTML += `
-                <tr>
+                <tr class="mt-1 mb-1">
                     <td>${coche.id}</td>
                     <td>${coche.nombre}</td>
-                    <td>${coche.cantidad}</td>
+                    <td>${coche.cantidad.toLocaleString("de-DE")}</td>
                     <td><button class="btn btn-danger btn-sm eliminar-btn">Eliminar</button></td>
                 </tr>
                 `;
@@ -81,7 +87,7 @@ document.getElementById('verTodos').addEventListener('click', () => {
 
 //delete 
 function fetchDelete(url, id) {
-    return fetch(`${url}/marcas/${id}`, {
+    return fetch(`${url}/coches/${id}`, {
         method: 'DELETE',
     });
 }
@@ -108,4 +114,54 @@ function eliminarCoche(idCoche) {
 }
 
 
+//PATCH
+function fetchPatch(url, id, datos) {
+    return fetch(`${url}/coches/patch/${id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos)
+    });
+}
+
+
+document.getElementById('modificarCochePatch').addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const url = 'http://127.0.0.1:3000';
+    const idCoche = document.getElementById('id-coche').value;
+    let nombreCoche = document.getElementById('nombre-coche').value;
+    let cantidadCoche = document.getElementById('cantidad-coche').value;
+
+    // Si el campo nombre-coche está vacío, tomar el valor del campo oculto
+    if (nombreCoche === '') {
+        nombreCoche = document.getElementById('nombre-coche-original').value;
+    }
+    // Si el campo cantidad-coche está vacío, tomar el valor del campo oculto
+    if (cantidadCoche === '') {
+        cantidadCoche = document.getElementById('cantidad-coche-original').value;
+    }
+
+    const datosCoche = {
+        nombre: nombreCoche,
+        cantidad: cantidadCoche
+    };
+
+    fetchPatch(url, idCoche, datosCoche)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al modificar el coche.');
+            }
+            return response.json();
+        })
+        .then(datos => {
+            document.getElementById('mensaje-modificacion-patch').innerText = 'El coche ha sido modificado correctamente.';
+            document.getElementById('verTodos').click(); 
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('mensaje-modificacion-patch').innerText = 'Error al modificar el coche.';
+        });
+});
 

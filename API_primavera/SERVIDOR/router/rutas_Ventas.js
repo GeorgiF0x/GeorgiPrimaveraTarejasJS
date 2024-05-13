@@ -12,4 +12,5 @@ rutasVentas.get("/todasVentas/:idMarca/:idConcesionario", VentasController.getVe
 
 
 
+
 module.exports=rutasVentas;
