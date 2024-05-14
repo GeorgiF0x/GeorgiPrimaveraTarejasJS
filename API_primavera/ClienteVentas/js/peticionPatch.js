@@ -1,4 +1,4 @@
-import { funcionesExportadas } from "./funciones/errores.js";
+
 // Función para hacer peticiones GET
 function fetchGet(url, id = '') {
     return new Promise((resolve, reject) => {
@@ -87,7 +87,7 @@ document.getElementById('verTodos').addEventListener('click', () => {
 
 //delete 
 function fetchDelete(url, id) {
-    return fetch(`${url}/coches/${id}`, {
+    return fetch(`${url}/marcas/${id}`, {
         method: 'DELETE',
     });
 }
@@ -116,7 +116,7 @@ function eliminarCoche(idCoche) {
 
 //PATCH
 function fetchPatch(url, id, datos) {
-    return fetch(`${url}/coches/patch/${id}`, {
+    return fetch(`${url}/marcas/patch/${id}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'

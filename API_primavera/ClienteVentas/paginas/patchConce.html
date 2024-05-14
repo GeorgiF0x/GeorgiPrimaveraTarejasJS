@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gestión de Concesionarios</title>
     <!-- Enlaces a Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container ">
+    <div class="container">
 
-    
         <header class="row mb-5 mt-2">
             <div class="col-12 d-flex justify-content-around mt-3 align-items-center ">
                 <a href="../index.html">
@@ -38,33 +37,31 @@
                   </div>
             </div>
         </header>
-
-
         <h1 class="text text-center fw-bold mt-3">Tarea Peticiones Fetch</h1>
         <div class="row">
             <div class="col">
                 <fieldset class="mb-3 border border-dark rounded mt-3">
-                    <legend class="text text-center">Modificar Coche (PATCH)</legend>
-                    <form class="ms-3 mx-3" method="get" id="getCoche" name="getCoche">
+                    <legend class="text text-center">Modificar Concesionario (PATCH)</legend>
+                    <form class="ms-3 mx-3" method="get" id="getConcesionario" name="getConcesionario">
                         <div class="mb-3">
-                            <label for="id-coche" class="form-label">Coche ID:</label>
-                            <input type="number" name="id-coche" id="id-coche" class="form-control" required>
+                            <label for="id-concesionario" class="form-label">Concesionario ID:</label>
+                            <input type="number" name="id-concesionario" id="id-concesionario" class="form-control" required>
                         </div>
                         <div class="text text-center">
                             <button type="submit" class="btn btn-primary">Buscar</button>
                         </div>
-                        <input type="hidden" id="nombre-coche-original" name="nombre-coche-hidden">
-                        <input type="hidden" id="cantidad-coche-original" name="cantidad-coche-hidden">
-                        <input type="hidden" id="id-coche" name="id-coche-hidden">
+                        <input type="hidden" id="nombre-concesionario-original" name="nombre-concesionario-hidden">
+                        <input type="hidden" id="marca-id-original" name="marca-id-hidden">
+                        <input type="hidden" id="id-concesionario" name="id-concesionario-hidden">
                     </form>
-                    <form class="ms-3 mx-3" method="post" id="modificarCochePatch" name="modificarCochePatch">
+                    <form class="ms-3 mx-3" method="post" id="modificarConcesionarioPatch" name="modificarConcesionarioPatch">
                         <div class="mb-3">
-                            <label for="nombre-coche-patch" class="form-label">Nuevo Nombre:</label>
-                            <input type="text" name="nombre-coche-patch" id="nombre-coche" class="form-control">
+                            <label for="nombre-concesionario-patch" class="form-label">Nuevo Nombre:</label>
+                            <input type="text" name="nombre-concesionario-patch" id="nombre-concesionario" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="cantidad-coche-patch" class="form-label">Nueva Cantidad:</label>
-                            <input type="number" name="cantidad-coche-patch" id="cantidad-coche" class="form-control">
+                            <label for="marca-id-patch" class="form-label">Nueva Marca ID:</label>
+                            <input type="number" name="marca-id-patch" id="marca-id" class="form-control">
                         </div>
                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                     </form>
@@ -73,12 +70,12 @@
             </div>
             <div class="col">
                 <fieldset class="mb-3 border border-dark rounded mt-3">
-                    <legend class="text text-center">Ver Todos los Coches</legend>
+                    <legend class="text text-center">Ver Todos los Concesionarios</legend>
                     <div class="text text-center">
-                        <button type="button" id="verTodos" class="btn btn-success">Ver Coches</button>
+                        <button type="button" id="verTodos" class="btn btn-success">Ver Concesionarios</button>
                     </div>
                     <div class="table-responsive mt-3">
-                        <table class="table table-striped table-hover text-center" id="tabla-coches">
+                        <table class="table table-striped table-hover text-center" id="tabla-concesionarios">
 
                         </table>
                     </div>
@@ -99,6 +96,6 @@
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script type="module" src="../js/peticionPatch.js"></script>
+    <script type="module" src="../js/concesionarios/patchConce.js"></script>
 </body>
 </html>

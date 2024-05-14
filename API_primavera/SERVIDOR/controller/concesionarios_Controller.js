@@ -33,10 +33,10 @@ const getConcesionarios = (req, res) => { // 127.0.0.1:3000/concesionarios
     });
   }
   
-  const getConcesionariosByMarcaId = (req, res) => { // 127.0.0.1:3000/concesionarios/marca/:idMarca
-    const idMarca = req.params.idMarca;
+  const getConcesionariosByMarcaId = (req, res) => { // 127.0.0.1:3000/concesionarios/marca/:marcaId
+    const marcaId = req.params.marcaId;
     db.getConnection((err, connection) => {
-      connection.query('SELECT * FROM concesionarios WHERE marcaId = ?', [idMarca], (err, resultados) => {
+      connection.query('SELECT * FROM concesionarios WHERE marcaId = ?', [marcaId], (err, resultados) => {
         if (err) {
           console.error('Error al obtener datos desde la base de datos:', err);
           res.status(500).json({ error: 'Error interno del servidor' });
@@ -45,19 +45,19 @@ const getConcesionarios = (req, res) => { // 127.0.0.1:3000/concesionarios
         }
         connection.release();
       });
-    });
+    }); 
   }
  
   
 
   const crearConcesionario = (req, res) => {
-    const { nombre, idMarca } = req.body;
+    const { nombre, marcaId } = req.body;
     
-    if (!nombre || !idMarca) {
+    if (!nombre || !marcaId) {
       return res.status(400).json({ error: 'Se requieren nombre y marcaId para crear un nuevo concesionario' });
     }
   
-    const values = [[nombre, idMarca]];
+    const values = [[nombre, marcaId]];
     
     db.getConnection((err, connection) => {
       if (err) {
@@ -103,12 +103,54 @@ const getConcesionarios = (req, res) => { // 127.0.0.1:3000/concesionarios
       });
     });
   };
+  const patchConcesionario = (req, res) => {
+    const idRegistro = req.params.id;
+    const { nombre, marcaId } = req.body;
+    let sql;
+    let values = [];
+  
+    if (nombre && marcaId) {
+      sql = 'UPDATE concesionarios SET nombre=?, marcaId=? WHERE id = ?';
+      values = [nombre, marcaId, idRegistro];
+    } else if (nombre) {
+      sql = 'UPDATE concesionarios SET nombre=? WHERE id = ?';
+      values = [nombre, idRegistro];
+    } else if (marcaId) {
+      sql = 'UPDATE concesionarios SET marcaId=? WHERE id = ?';
+      values = [marcaId, idRegistro];
+    } else {
+      return res.status(400).json({ error: "Se requiere al menos un campo para actualizar" });
+    }
+  
+    db.getConnection((err, connection) => {
+      if (err) {
+        console.error("Error al conectar con la base de datos:", err);
+        return res.status(500).json({ error: "Error interno del servidor", message: err.message });
+      }
+  
+      connection.query(sql, values, (err, resultado) => {
+        if (err) {
+          console.error("Error al actualizar el registro en la base de datos:", err);
+          return res.status(500).json({ error: "Error interno del servidor", message: err.message });
+        }
+  
+        if (resultado.affectedRows === 0) {
+          return res.status(404).json({ error: "Concesionario no encontrado" });
+        }
+  
+        res.json({ actualizado: true, nombre, marcaId, id: idRegistro });
+        connection.release();
+      });
+    });
+  };
+  
   
   module.exports = {
     getConcesionarios,
     getConcesionarioById,
     getConcesionariosByMarcaId,
     crearConcesionario,
-    borrarConcesionario
+    borrarConcesionario,
+    patchConcesionario
   };
   

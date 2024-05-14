@@ -20,9 +20,9 @@
                       Marca
                     </button>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="./paginas/getById.html">Ver/Buscar</a></li>
-                      <li><a class="dropdown-item" href="./paginas/post.html">Crear</a></li>
-                      <li><a class="dropdown-item" href="./paginas//patch.html">Modificar</a></li>
+                      <li><a class="dropdown-item" href="./getById.html">Ver/Buscar</a></li>
+                      <li><a class="dropdown-item" href="./post.html">Crear</a></li>
+                      <li><a class="dropdown-item" href="./patch.html">Modificar</a></li>
                     </ul>
                   </div>
                   <div class="dropdown">
@@ -30,9 +30,9 @@
                         Concesionarios
                     </button>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Ver/Buscar</a></li>
-                      <li><a class="dropdown-item" href="#">Crear</a></li>
-                      <li><a class="dropdown-item" href="#">Modificar</a></li>
+                      <li><a class="dropdown-item" href="./getConcesionarios.html">Ver/Buscar</a></li>
+                      <li><a class="dropdown-item" href="./postConce.html">Crear</a></li>
+                      <li><a class="dropdown-item" href="./patchConce.html">Modificar</a></li>
                     </ul>
                   </div>
             </div>
@@ -44,10 +44,10 @@
         <div class="row">
             <div class="col">
                 <fieldset class="mb-3 border border-dark rounded mt-3">
-                    <legend class="text text-center">Buscar Coche por ID</legend>
+                    <legend class="text text-center">Buscar Marca por ID</legend>
                     <form class="ms-3 mx-3" method="get" id="getCoche" name="getCoche">
                         <div class="mb-3">
-                            <label for="id-coche" class="form-label">Coche ID:</label>
+                            <label for="id-coche" class="form-label">Marca ID:</label>
                             <input type="number" name="id-coche" id="id-coche" class="form-control" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Buscar</button>
@@ -57,7 +57,7 @@
             </div>
             <div class="col">
                 <fieldset class="mb-3 border border-dark rounded mt-3">
-                    <legend class="text text-center">Ver Todos los Coches</legend>
+                    <legend class="text text-center">Ver Todos las Marcas</legend>
                     <div class="text text-center">
                         <button type="button" id="verTodos" class="btn btn-success">Ver Coches</button>
                     </div>
