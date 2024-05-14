@@ -132,7 +132,7 @@ formVentas.addEventListener('submit', (event) => {
 
         const tbodyVentas = document.getElementById('tbodyVentas');
     
-        // Llenar la tabla con los datos de las ventas
+      
         ventas.forEach(venta => {
             const fila = `
                 <tr>

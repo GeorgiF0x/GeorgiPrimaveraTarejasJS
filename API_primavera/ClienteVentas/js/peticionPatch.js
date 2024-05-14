@@ -134,11 +134,10 @@ document.getElementById('modificarCochePatch').addEventListener('submit', (event
     let nombreCoche = document.getElementById('nombre-coche').value;
     let cantidadCoche = document.getElementById('cantidad-coche').value;
 
-    // Si el campo nombre-coche está vacío, tomar el valor del campo oculto
     if (nombreCoche === '') {
         nombreCoche = document.getElementById('nombre-coche-original').value;
     }
-    // Si el campo cantidad-coche está vacío, tomar el valor del campo oculto
+
     if (cantidadCoche === '') {
         cantidadCoche = document.getElementById('cantidad-coche-original').value;
     }
